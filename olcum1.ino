@@ -21,18 +21,17 @@ void girisConfig(int girisNo, int maxVolt, int ornekleme)
     case 0:
       girisBit = 64;
     break;
-    
     case 1:
       girisBit = 80;
     break;
-    
     case 2:
       girisBit = 96;
     break;
-    
     case 3:
       girisBit = 112;
     break;
+    default:
+      girisBit = 64;
   }
 
   switch (maxVolt)
@@ -55,12 +54,47 @@ void girisConfig(int girisNo, int maxVolt, int ornekleme)
     case 256:
       kazancBit = 10;
     break;
+    default:
+      kazancBit = 0;
   }
 
   switch (ornekleme)
   {
-    case 
+    case 8:
+      SPSBit = 0;
+    break;
+    case 16:
+      SPSBit = 32;
+    break;
+    case 32:
+      SPSBit = 64;
+    break;
+    case 64:
+      SPSBit = 96;
+    break;
+    case 128:
+      SPSBit = 128;
+    break;
+    case 250:
+      SPSBit = 160;
+    break;
+    case 475:
+      SPSBit = 192;
+    break;
+    case 860:
+      SPSBit = 224;
+    break;
+    default:
+      SPSBit = 128;
   }
+
+  MSB = girisBit + kazancBit;
+  LSB = SPSBit + 3;
+  Wire.write(MSB);
+  Wire.write(LSB);
+  Wire.endTransmission();
+  //Serial.println(MSB);
+  //Serial.println(LSB);
   
 }
 
@@ -88,12 +122,13 @@ void setup()
 
 void loop()
 {
-	// Step 1: Point to Config register - set to continuous conversion
+	/*// Step 1: Point to Config register - set to continuous conversion
 	Wire.beginTransmission(I2Caddress);
 
 	// Point to Config Register
 	Wire.write(0b00000001);
-
+  //Wire.write(1);
+  
 	// Write the MSB + LSB of Config Register
 	// MSB: Bits 15:8
 	// Bit  15		0=No effect, 1=Begin Single Conversion (in power down mode)
@@ -101,6 +136,7 @@ void loop()
 	// Bits	11:9 	Programmable Gain 000=6.144v 001=4.096v 010=2.048v .... 111=0.256v
 	// Bits	8 		0=Continuous conversion mode, 1=Power down single shot
 	Wire.write(0b01000000);
+  //Wire.write(64);
 
 	// LSB:	Bits 7:0
 	// Bits 7:5	Data Rate (Samples per second) 000=8, 001=16, 010=32, 011=64,
@@ -111,9 +147,11 @@ void loop()
 	// Bits	1:0	Comparator # before Alert pin goes high
 	//			00=1, 01=2, 10=4, 11=Disable this feature
 	Wire.write(0b01000011);
+  //Wire.write(67);
 
 	// Send the above bytes as an I2C WRITE to the module
-	Wire.endTransmission();
+	Wire.endTransmission();*/
+  girisConfig(2,6144, 32);
 
 	// ====================================
 
@@ -121,7 +159,7 @@ void loop()
 	Wire.beginTransmission(I2Caddress);
 
 	//Point to Conversion register (read only , where we get our results from)
-	Wire.write(0b00000000);
+	Wire.write(0);
 
 	// Send the above byte(s) as a WRITE
 	Wire.endTransmission();
@@ -141,12 +179,12 @@ void loop()
 	// Debug the value
 	//Serial.println(convertedValue >> 6 << 6);
 	//Serial.println(map(convertedValue, 0, 32767, 0, 5000));
-  Serial.println("*==========================================*");
+  //Serial.println("*==========================================*");
   Serial.println(map(convertedValue, 0, 32767, 0, 6144));
 	//Serial.println(convertedValue);
 	readings[readCnt] = convertedValue;
 	readCnt = readCnt == 19 ? 0 : readCnt + 1;
-  Serial.println("--------------------------------------------");
+  //Serial.println("--------------------------------------------");
 	// Get the average
 	unsigned long totalReadings = 0;
 	for (unsigned char cnt = 0; cnt < 20; cnt++){
