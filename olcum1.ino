@@ -1,13 +1,19 @@
+#include <Servo.h>
 #include "Arduino.h"
 #include "Wire.h"
 #define I2Caddress 0x48
+#define UVLED 8
+#define IRLED 9
 
-// Running average
+
+//void servoCevir(int )
+
+
 unsigned int readings[20] = {0};
 unsigned char readCnt = 0;
+Servo myServo;
 
-
-void girisConfig(int girisNo, int maxVolt, int ornekleme)
+int degerOku(int girisNo, int maxVolt, int ornekleme)
 {
   Wire.beginTransmission(I2Caddress);
   Wire.write(0b00000001);
@@ -95,101 +101,114 @@ void girisConfig(int girisNo, int maxVolt, int ornekleme)
   Wire.endTransmission();
   //Serial.println(MSB);
   //Serial.println(LSB);
+  Wire.beginTransmission(I2Caddress);
+
+  Wire.write(0);
+
+  Wire.endTransmission();
+
+  // =======================================
+
+  Wire.requestFrom(I2Caddress, 2);
+
+  uint16_t convertedValue;
+
+  convertedValue = (Wire.read() << 8 | Wire.read());
+  int sonuc = map(convertedValue, 0, 32767, 0, maxVolt);
   
+  return sonuc;
 }
 
 
+int UVOlcum()
+{
+  Serial.println("UV olcumu yapılıyor.");
+  myServo.attach(10);
+  myServo.write(0);
+  delay(1000);
+  myServo.detach();
+  delay(100);
+  digitalWrite(UVLED, HIGH);
+  int i = 0;
+  int sonuc;
+  delay(50);
+  /*for(i=0; i<=1000; i++)
+  {
+    sonuc = degerOku(0,4096,128);
+    Serial.println(sonuc);
+    delay(20);
+  }*/
+  sonuc = degerOku(0,4096,128);
+  digitalWrite(UVLED, LOW);
+  myServo.attach(10);
+  myServo.write(75);
+  return sonuc;
+}
 
 
-
-
-
-
-
-
+int IROlcum()
+{
+  Serial.println("IR olcumu yapılıyor.");
+  myServo.attach(10);
+  myServo.write(0);
+  delay(1000);
+  myServo.detach();
+  delay(100);
+  digitalWrite(IRLED, HIGH);
+  delay(500);
+  int sonuc = degerOku(2,4096,128);
+  delay(50);
+  digitalWrite(IRLED, LOW);
+  myServo.attach(10);
+  myServo.write(75);
+  return sonuc;
+}
 
 
 
 void setup()
 {
-	Serial.begin(9600);
+  Serial.begin(9600);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
 
-	// Join the I2C bus as a master (call this only once)
-	Wire.begin();
+  // Join the I2C bus as a master (call this only once)
+  Wire.begin();
 
-	Serial.println("Setup completed.");
+  myServo.attach(10);
+  myServo.write(75);
+  delay(500);
+  Serial.println("Setup completed.");
+  myServo.detach();
+  digitalWrite(UVLED, HIGH);
+  delay(500);
+  digitalWrite(UVLED, LOW);
 }
 
 void loop()
 {
-	/*// Step 1: Point to Config register - set to continuous conversion
-	Wire.beginTransmission(I2Caddress);
+  int data;
+  if (Serial.available() > 0) 
+  {
+    // read the incoming byte:
+    data = Serial.read();
+    
+    switch(data)
+    {
+      case '0':
+        Serial.println(UVOlcum());
+        delay(300);
+        myServo.detach();
+      break;
+      case '2':
+        Serial.println(IROlcum());
+        delay(300);
+        myServo.detach();
+      break;
+    }
+  }
 
-	// Point to Config Register
-	Wire.write(0b00000001);
-  //Wire.write(1);
+  //Serial.println(UVOlcum());
+
   
-	// Write the MSB + LSB of Config Register
-	// MSB: Bits 15:8
-	// Bit  15		0=No effect, 1=Begin Single Conversion (in power down mode)
-	// Bits 14:12 	How to configure A0 to A3 (comparator or single ended)
-	// Bits	11:9 	Programmable Gain 000=6.144v 001=4.096v 010=2.048v .... 111=0.256v
-	// Bits	8 		0=Continuous conversion mode, 1=Power down single shot
-	Wire.write(0b01000000);
-  //Wire.write(64);
-
-	// LSB:	Bits 7:0
-	// Bits 7:5	Data Rate (Samples per second) 000=8, 001=16, 010=32, 011=64,
-	//			100=128, 101=250, 110=475, 111=860
-	// Bit 	4 	Comparator Mode 0=Traditional, 1=Window
-	// Bit	3 	Comparator Polarity 0=low, 1=high
-	// Bit	2 	Latching 0=No, 1=Yes
-	// Bits	1:0	Comparator # before Alert pin goes high
-	//			00=1, 01=2, 10=4, 11=Disable this feature
-	Wire.write(0b01000011);
-  //Wire.write(67);
-
-	// Send the above bytes as an I2C WRITE to the module
-	Wire.endTransmission();*/
-  girisConfig(2,6144, 32);
-
-	// ====================================
-
-	// Step 2: Set the pointer to the conversion register
-	Wire.beginTransmission(I2Caddress);
-
-	//Point to Conversion register (read only , where we get our results from)
-	Wire.write(0);
-
-	// Send the above byte(s) as a WRITE
-	Wire.endTransmission();
-
-	// =======================================
-
-	// Step 3: Request the 2 converted bytes (MSB plus LSB)
-	Wire.requestFrom(I2Caddress, 2);
-
-	// Read two bytes and convert to full 16-bit int
-	uint16_t convertedValue;
-
-	// Read the the first byte (MSB) and shift it 8 places to the left then read
-	// the second byte (LSB) into the last byte of this integer
-	convertedValue = (Wire.read() << 8 | Wire.read());
-
-	// Debug the value
-	//Serial.println(convertedValue >> 6 << 6);
-	//Serial.println(map(convertedValue, 0, 32767, 0, 5000));
-  //Serial.println("*==========================================*");
-  Serial.println(map(convertedValue, 0, 32767, 0, 6144));
-	//Serial.println(convertedValue);
-	readings[readCnt] = convertedValue;
-	readCnt = readCnt == 19 ? 0 : readCnt + 1;
-  //Serial.println("--------------------------------------------");
-	// Get the average
-	unsigned long totalReadings = 0;
-	for (unsigned char cnt = 0; cnt < 20; cnt++){
-		totalReadings += readings[cnt];
-	}
-	//Serial.print(convertedValue); Serial.print("\t"); Serial.println(totalReadings / 20);
-	delay(250);
 }
