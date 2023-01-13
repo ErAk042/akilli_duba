@@ -4,14 +4,48 @@
 #define I2Caddress 0x48
 #define UVLED 8
 #define IRLED 9
-
-
-//void servoCevir(int )
-
+#define ISI A0
 
 unsigned int readings[20] = {0};
 unsigned char readCnt = 0;
 Servo myServo;
+
+
+int isiOku()
+{
+  float sonuc;
+  int olcum = analogRead(ISI);
+  float voltage = olcum * (5000.0 / 1023.0);
+  sonuc = (voltage-500)/10;
+  return sonuc;
+}
+
+
+void servoCevir(int sonPos)
+{
+  myServo.attach(10);
+  int konum = myServo.read();
+  int fark = sonPos - konum;
+  int i;
+  if (fark > 0)
+  { 
+    for (i = konum; i <= sonPos; i += 1)
+    {  
+      myServo.write(i);             
+      delay(30);
+    }
+  }
+  else if (fark < 0)
+  { 
+    for (i = konum; i >= sonPos; i -= 1)
+    {  
+      myServo.write(i);             
+      delay(30);
+    }
+  }
+  myServo.detach();
+}
+
 
 int degerOku(int girisNo, int maxVolt, int ornekleme)
 {
@@ -123,10 +157,8 @@ int degerOku(int girisNo, int maxVolt, int ornekleme)
 int UVOlcum()
 {
   Serial.println("UV olcumu yapılıyor.");
-  myServo.attach(10);
-  myServo.write(0);
+  servoCevir(0);
   delay(1000);
-  myServo.detach();
   delay(100);
   digitalWrite(UVLED, HIGH);
   int i = 0;
@@ -140,8 +172,7 @@ int UVOlcum()
   }*/
   sonuc = degerOku(0,4096,128);
   digitalWrite(UVLED, LOW);
-  myServo.attach(10);
-  myServo.write(75);
+  servoCevir(75);
   return sonuc;
 }
 
@@ -149,18 +180,14 @@ int UVOlcum()
 int IROlcum()
 {
   Serial.println("IR olcumu yapılıyor.");
-  myServo.attach(10);
-  myServo.write(0);
-  delay(1000);
-  myServo.detach();
-  delay(100);
+  servoCevir(0);
+  delay(200);
   digitalWrite(IRLED, HIGH);
   delay(500);
   int sonuc = degerOku(2,4096,128);
   delay(50);
   digitalWrite(IRLED, LOW);
-  myServo.attach(10);
-  myServo.write(75);
+  servoCevir(75);
   return sonuc;
 }
 
@@ -175,11 +202,9 @@ void setup()
   // Join the I2C bus as a master (call this only once)
   Wire.begin();
 
-  myServo.attach(10);
-  myServo.write(75);
-  delay(500);
+  servoCevir(75);
+  delay(200);
   Serial.println("Setup completed.");
-  myServo.detach();
   digitalWrite(UVLED, HIGH);
   delay(500);
   digitalWrite(UVLED, LOW);
@@ -198,12 +223,16 @@ void loop()
       case '0':
         Serial.println(UVOlcum());
         delay(300);
-        myServo.detach();
+      break;
+      case '1':
+        Serial.println(degerOku(0,4096,128));
       break;
       case '2':
         Serial.println(IROlcum());
         delay(300);
-        myServo.detach();
+      break;
+      case '4':
+        Serial.println(isiOku());
       break;
     }
   }
