@@ -13,6 +13,8 @@ hata noktası oluşmaktadır. Yapılacak ölçümlerin gün ışığından etkil
 
 Dubada, sudaki klrofil miktarı ölçümü için bir adet BPW34 fotodiyot kullanılmıştır. Bunun seçilmesinin temel sebeplerinden biri yüksek hassasiyete ve geiş bir ışığa duyarlı alana sahip olmasıdır. Bulanıklık sensöründe ise üstünde kızılötesi filtreleyen reçineden yapılma lens olması ve yüksek hassasiyet sebebiyle SFH 203-FA kullanılmıştır. Bu iki fotodiyodun da çıkışına sinyali yükseltme amaçlı düşük gürültülü sabit kazançlı(24x) ADPD2210 fotodiyot yükseltici entegresi kullanılmıştır. Bu fotodiyotlardan gelen sinyalleri arduinonun okuyabileceği bir dijital veriye çevirmesi için küçük ayak izine sahip ve I2C bus ile kolayca kullanılabilen ADS1115 analogtan dijitale çevirici entegresi kullanılmıştır. Sensörlerin durması gereken pozisyon neeniyle BPW34 ve ona ait yükseltici ayrı bir karta monte edilmiş ve bu kart ana karta bir adet 90° pin header ile bağlanmıştır. Ana kartta ayrıca kızılötesi fotodiyot için bir adet arduinonun dijital pinleri tarafından kontrol edilebilen mosfet ve bir sabit akım kaynağı kullanılmıştır. UV ledler için pilin gerilimi ile ledlerin çalışma gerilimi arasındaki yakınlık sebebiyle sadce arduinonun dijital pinleri ile açıp kapayabilmeyi sağlamak amacıyla bir mosfet konmuştur.
 
+![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B12.PNG?raw=true)
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Smart Buoy
