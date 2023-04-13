@@ -12,7 +12,7 @@
 #define DHTTYPE DHT11 
 
 
-String device_name = "Fenlisesi_Fake_Buoy2"; // Name your station
+String device_name = "Fenlisesi_Duba"; // Name your station
 String dataout;
 
 
