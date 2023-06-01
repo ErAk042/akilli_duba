@@ -15,8 +15,10 @@ Dubada, sudaki klrofil miktarı ölçümü için bir adet BPW34 fotodiyot kullan
 
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B12.PNG?raw=true)
 Optik sensörler ve ADC yi içeren kartın şematiği
+
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B1.PNG?raw=true)
 Optik sensörler ve ADC yi içeren kartın dağılım şeması
+
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B11.PNG?raw=true)
 Hassas fotodiyot ve yükselticisini içeren kartın dağılım şeması
 
@@ -27,6 +29,7 @@ Dubamız aynı zamanda suyun iletkenliğini ölçerek alg patlamalarının ana s
 
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B12.PNG?raw=true)
 TDS sensör kartının şematiği
+
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202023-06-01%20095348.png?raw=true)
 TDS sensör kartının dağılım şeması
 
