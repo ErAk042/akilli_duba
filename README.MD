@@ -14,12 +14,17 @@ hata noktası oluşmaktadır. Yapılacak ölçümlerin gün ışığından etkil
 Dubada, sudaki klrofil miktarı ölçümü için bir adet BPW34 fotodiyot kullanılmıştır. Bunun seçilmesinin temel sebeplerinden biri yüksek hassasiyete ve geiş bir ışığa duyarlı alana sahip olmasıdır. Bulanıklık sensöründe ise üstünde kızılötesi filtreleyen reçineden yapılma lens olması ve yüksek hassasiyet sebebiyle SFH 203-FA kullanılmıştır. Bu iki fotodiyodun da çıkışına sinyali yükseltme amaçlı düşük gürültülü sabit kazançlı(24x) ADPD2210 fotodiyot yükseltici entegresi kullanılmıştır. Bu fotodiyotlardan gelen sinyalleri arduinonun okuyabileceği bir dijital veriye çevirmesi için küçük ayak izine sahip ve I2C bus ile kolayca kullanılabilen ADS1115 analogtan dijitale çevirici entegresi kullanılmıştır. Sensörlerin durması gereken pozisyon neeniyle BPW34 ve ona ait yükseltici ayrı bir karta monte edilmiş ve bu kart ana karta bir adet 90° pin header ile bağlanmıştır. Ana kartta ayrıca kızılötesi fotodiyot için bir adet arduinonun dijital pinleri tarafından kontrol edilebilen mosfet ve bir sabit akım kaynağı kullanılmıştır. UV ledler için pilin gerilimi ile ledlerin çalışma gerilimi arasındaki yakınlık sebebiyle sadce arduinonun dijital pinleri ile açıp kapayabilmeyi sağlamak amacıyla bir mosfet konmuştur.
 
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B12.PNG?raw=true)
+
 Optik sensörler ve ADC yi içeren kartın şematiği
 
+
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B1.PNG?raw=true)
+
 Optik sensörler ve ADC yi içeren kartın dağılım şeması
 
+
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B11.PNG?raw=true)
+
 Hassas fotodiyot ve yükselticisini içeren kartın dağılım şeması
 
 
@@ -28,9 +33,12 @@ Hassas fotodiyot ve yükselticisini içeren kartın dağılım şeması
 Dubamız aynı zamanda suyun iletkenliğini ölçerek alg patlamalarının ana sebeplerden biri olan suya kirletici madde atılmasını tespit edebilmektedir. Bu ölçümü alırken sinyallerin su içinden geçerken ne kadar zayıfladığını ölçerek suyun ne düzeyde iletken olduğunu tespit eder. Bunu yaparken suyyun hidrolizini önlemek amacıyla suyun içinden CD4060 tarafından üretilen bir kare dalga geçirilerek bu durum önlenmektedir. Ardından bu kare dalga opamplar aracılığıyla doğrultularak Arduino tarafından analog olarak okunmaktadır. 
 
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20Al%C4%B1nt%C4%B1s%C4%B12.PNG?raw=true)
+
 TDS sensör kartının şematiği
 
+
 ![A](https://github.com/ErAk042/akilli_duba/blob/main/resimler/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202023-06-01%20095348.png?raw=true)
+
 TDS sensör kartının dağılım şeması
 
 
