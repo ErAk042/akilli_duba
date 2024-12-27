@@ -1,4 +1,4 @@
-#Bu repoda projemizin ilk versiyonu bulunmaktadır. Son hali için [-dosyalar daha yüklenmedi-]'i ziyaret edin.
+# Bu repository'de projemizin ilk versiyonu bulunmaktadır. Son hali için [-dosyalar daha yüklenmedi-]'i ziyaret edin.
 
 
 # Akıllı Duba
@@ -48,7 +48,7 @@ TDS sensör kartının dağılım şeması
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#This repo contains the first prototype of our project. For the final version, please visit [-files yet to be uploaded-].
+# This repository contains the first prototype of our project. For the final version, please visit [-files yet to be uploaded-].
 
 # Smart Buoy
 
