@@ -1,3 +1,6 @@
+#Bu repoda projemizin ilk versiyonu bulunmaktadır. Son hali için [-dosyalar daha yüklenmedi-]'i ziyaret edin.
+
+
 # Akıllı Duba
 
 Izmir Fen Lisesi öğrencileri tarafından 2204-A Lise Öğrencileri Araştırma Projeleri Yarışması için tasarlanan ve üretilen, içinde bulunduğu su ortamından
@@ -44,6 +47,8 @@ TDS sensör kartının dağılım şeması
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#This repo contains the first prototype of our project. For the final version, please visit [-files yet to be uploaded-].
 
 # Smart Buoy
 
